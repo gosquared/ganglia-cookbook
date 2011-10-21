@@ -16,11 +16,8 @@ directory "/var/lib/ganglia/rrds" do
   recursive true
 end
 
-ips = search(:node, "recipes:ganglia").map {|node| node.ipaddress}
-
 template "/etc/ganglia/gmetad.conf" do
   source "gmetad.conf.erb"
-  variables(:hosts => ips.join(" "))
   notifies :restart, "service[gmetad]"
 end
 
