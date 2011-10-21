@@ -1,4 +1,4 @@
-default[:ganglia][:version] = "3.1.7"
-default[:ganglia][:uri] = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/3.1.7/ganglia-3.1.7.tar.gz/download"
-default[:ganglia][:checksum] = "bb1a4953"
+default[:ganglia][:version]      = "3.2.0"
+default[:ganglia][:uri]          = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
+default[:ganglia][:checksum]     = "9867153c550a65099544fae82ff3514e4ae8b172a360e4b5320e269eb32dae48"
 default[:ganglia][:cluster_name] = "default"
