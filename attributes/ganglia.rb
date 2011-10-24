@@ -6,3 +6,13 @@ default[:ganglia][:gmetad][:grid_name] = "default-grid"
 default[:ganglia][:gmetad][:clusters]  = {}
 
 default[:ganglia][:gmond][:cluster_name] = "default-cluster"
+#
+# Minimum amount of time before gmond will cleanup expired data
+default[:ganglia][:gmond][:cleanup_threshold] = 300
+#
+# Time to flush the host from gmond's list after N seconds
+# By default it will not remove any hosts
+default[:ganglia][:gmond][:host_dmax] = 0
+
+default[:ganglia][:admin][:user] = "ganglia"
+default[:ganglia][:admin][:password] = "ChangeMeNOW!!!"
