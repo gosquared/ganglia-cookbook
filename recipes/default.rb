@@ -16,13 +16,13 @@ end
 
 directory "/etc/ganglia"
 
-template "/etc/ganglia/gmond.conf" do
-  source "gmond.conf.erb"
-  notifies :restart, "service[ganglia-monitor]"
-end
-
 service "ganglia-monitor" do
   pattern "gmond"
   supports :restart => true
-  action [ :enable, :start ]
+  action [:enable, :start]
+end
+
+template "/etc/ganglia/gmond.conf" do
+  source "gmond.conf.erb"
+  notifies :restart, :service => "ganglia-monitor"
 end
