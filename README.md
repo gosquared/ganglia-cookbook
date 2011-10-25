@@ -1,6 +1,7 @@
 # DESCRIPTION
 
-Installs and configures Ganglia. http://ganglia.sourceforge.net/
+Installs and configures [Ganglia](http://ganglia.sourceforge.net) which is
+a Distributed Monitoring System.
 
 *GMOND*
 
@@ -15,7 +16,7 @@ distributing their stats upstream.
 
 *GMETAD*
 
-Responsible for collecting data from an arbitrary number of gmond's,
+Responsible for collecting data from an arbitrary number of GMONDs,
 or even other gmetad daemons, persisting the metrics into correct RRD
 (round robin database) files, and then making this data available to the
 PHP frontend (or any other service that consumes RRD's).

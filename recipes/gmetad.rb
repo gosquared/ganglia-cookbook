@@ -16,12 +16,12 @@ directory "/var/lib/ganglia/rrds" do
   recursive true
 end
 
-template "/etc/ganglia/gmetad.conf" do
-  source "gmetad.conf.erb"
-  notifies :restart, "service[gmetad]"
-end
-
 service "gmetad" do
   supports :restart => true
   action [ :enable, :start ]
+end
+
+template "/etc/ganglia/gmetad.conf" do
+  source "gmetad.conf.erb"
+  notifies :restart, :service => "gmetad"
 end
