@@ -5,6 +5,13 @@ default[:ganglia][:uri]       = "http://sourceforge.net/projects/ganglia/files/g
 default[:ganglia][:checksum]  = "9867153c550a65099544fae82ff3514e4ae8b172a360e4b5320e269eb32dae48"
 
 
+#
+### MODULES
+#
+default[:ganglia][:python_modules][:enabled] = []
+default[:ganglia][:python_modules][:disabled] = []
+
+
 
 ### GMETAD - Responsible for collecting data from an arbitrary number of GMONDs
 #
