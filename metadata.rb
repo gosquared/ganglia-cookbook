@@ -10,3 +10,7 @@ supports "ubuntu"
 supports "redhat"
 supports "centos"
 supports "fedora"
+
+depends "apt"
+depends "apache2"
+depends "php"

@@ -1,6 +1,8 @@
 case node[:platform]
 when "ubuntu", "debian"
-  package "ganglia-webfrontend"
+  package "ganglia-webfrontend" do
+    options "--force-yes"
+  end
 when "redhat", "centos", "fedora"
   package "httpd"
   package "php"
@@ -12,6 +14,21 @@ when "redhat", "centos", "fedora"
     creates "/var/www/html/ganglia"
     cwd "/usr/src/ganglia-#{node[:ganglia][:version]}"
   end
+end
+
+# PHP templating...
+# For some reason, ganglia-web doesn't include this
+#
+package "dwoo"
+link "/usr/share/ganglia-webfrontend/dwoo" do
+  to "/usr/share/php/dwoo"
+end
+# Dwoo requires this to write it's templates
+#
+directory "/var/lib/ganglia/dwoo" do
+  owner "www-data"
+  group "www-data"
+  mode "0755"
 end
 
 directory "/etc/ganglia-webfrontend"

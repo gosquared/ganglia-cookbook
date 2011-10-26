@@ -22,6 +22,12 @@ default[:ganglia][:gmetad][:clusters]  = {}
 
 ### GMOND - Gathers user specified stats and shares them over the network
 #
+# Ganglia uses an IP address as a "key" so to avoid possible conflicts if
+# override_ip is not specified it will be set to override_hostname. This avoids
+# issues if you decide to change the override_hostname on the same machine.
+#
+default[:ganglia][:gmond][:override_hostname] = node[:hostname]
+default[:ganglia][:gmond][:override_ip] = node[:ipddress]
 # There should only be one cluster section defined.
 # This section controls how gmond reports the attributes of the cluster
 # that it is part of.
