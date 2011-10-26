@@ -16,6 +16,10 @@ globals {
   cleanup_threshold = <%= node[:ganglia][:gmond][:cleanup_threshold] %> /*secs */
   gexec = no
   send_metadata_interval = <%= node[:ganglia][:gmond][:send_metadata_interval] %> /*secs */
+  override_hostname = <%= node[:ganglia][:gmond][:override_hostname] %>
+  /*  This is problematic for the collector, investigate if it becomes a requirement
+  override_ip = <%= node[:ganglia][:gmond][:override_ip] %>
+  */
 }
 
 /* If a cluster attribute is specified, then all gmond hosts are wrapped inside

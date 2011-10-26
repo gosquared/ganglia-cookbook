@@ -27,7 +27,11 @@ default[:ganglia][:gmetad][:clusters]  = {}
 # issues if you decide to change the override_hostname on the same machine.
 #
 default[:ganglia][:gmond][:override_hostname] = node[:hostname]
-default[:ganglia][:gmond][:override_ip] = node[:ipddress]
+#
+# This is problematic for the collector, investigate if it becomes a requirement
+#
+# default[:ganglia][:gmond][:override_ip] = node[:ipddress]
+#
 # There should only be one cluster section defined.
 # This section controls how gmond reports the attributes of the cluster
 # that it is part of.
