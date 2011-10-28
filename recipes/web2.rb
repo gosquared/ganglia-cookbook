@@ -1,5 +1,5 @@
 remote_file node[:ganglia][:web2][:save_to] do
-  checksum "e42309b9dbcd65886db8bfa0eee0dc47a379d90cae1812790ca372b6939c775b"
+  checksum node[:ganglia][:web2][:checksum]
   source node[:ganglia][:web2][:uri]
   action :create_if_missing
 end
@@ -12,6 +12,7 @@ bash "Installing Ganglia Web #{node[:ganglia][:web2][:version]}" do
     tar zxf #{node[:ganglia][:web2][:archive_name]}
     mv #{node[:ganglia][:web2][:dir_name]} /var/www
     cp -fR /var/www/#{node[:ganglia][:web2][:dir_name]}/conf/*.json /var/lib/ganglia/conf
+    rm -fr /var/lib/ganglia/dwoo/*
   }
   only_if "[ ! -d /var/www/#{node[:ganglia][:web2][:dir_name]} ]"
 end

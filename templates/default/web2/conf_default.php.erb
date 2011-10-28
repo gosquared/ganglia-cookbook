@@ -1,5 +1,5 @@
 <?php
-# $Id: conf_default.php.in 2594 2011-05-13 21:13:43Z vvuksan $
+# $Id: conf_default.php.in 2557 2011-04-11 01:51:43Z vvuksan $
 #
 # Gmetad-webfrontend version. Used to check for updates.
 #
@@ -12,7 +12,7 @@ include_once $conf['ganglia_dir'] . "/version.php";
 #  'enabled': Guest users may view public clusters.  Login is required to make changes.  
 #             An administrator must configure an authentication scheme and ACL rules.
 # 'disabled': Guest users may perform any actions, including edits.  No authentication is required.
-$conf['auth_system'] = 'readonly';
+$conf['auth_system'] = 'disabled';
 
 #
 # The name of the directory in "./templates" which contains the
@@ -158,7 +158,7 @@ $conf['default_metric_color'] = "555555";
 #
 # Default metric 
 #
-$conf['default_metric'] = "load_report";
+$conf['default_metric'] = "load_one";
 
 #
 # remove the domainname from the FQDN hostnames in graphs
@@ -199,11 +199,11 @@ $conf['graph_engine'] = "rrdtool";
 $conf['graphite_url_base'] = "http://127.0.0.1/render";
 $conf['graphite_rrd_dir'] = "/opt/graphite/storage/rrd";
 
-# One of the bottlenecks is that to get individual metrics we query gmond which
+# One of the bottlenecks is that to get individual metrics we query gmetad which
 # returns every single host and all the metrics. If you have lots of hosts and lots of 
 # checks this may be quite heavy so you may want to cache data
 $conf['cachedata'] = 1;
-$conf['cachefile'] = $conf['ganglia_dir'] . "/conf/ganglia_metrics.cache";
+$conf['cachefile'] = $conf['conf_dir'] . "/ganglia_metrics.cache";
 $conf['cachetime'] = 1200; // How long to cache the data in seconds
 
 #
@@ -274,4 +274,31 @@ $conf['case_sensitive_hostnames'] = true;
 # The following property controls whether the graphs contained in metric
 # groups are initially displayed or collapsed
 $conf['metric_groups_initially_collapsed'] = false;
+
+# Overlay events on graphs. Those are defined by specifying all the events
+# in events.json
+$conf['overlay_events'] = false;
+
+# If you have periodic events that happen often e.g. they will make the
+# graph poorly. By default we exclude events on monthly and yearly graphs
+$conf['overlay_events_exclude_ranges'] = array("month", "year");
+
+# Overlay events line can be either dashed or solid. Use "solid" for solid
+# lines, anything else (including blanks) means a dashed line.
+$conf['overlay_events_line_type'] = "dashed";
+
+# What is the provider use to provide events. Currently only JSON files supported
+$conf['overlay_events_provider'] = "json";
+# Where is the Overlay events file stored
+$conf['overlay_events_file'] = $conf['conf_dir'] . "/events.json";
+
+# For event shading.  Value in hex, 'FF' = 100% opaque.
+# the _shade_ value should be less than _tick_
+$conf['overlay_events_tick_alpha']  = '30';
+$conf['overlay_events_shade_alpha'] = '50';
+
+# Colors to use e.g. in graph_colors
+$conf['graph_colors'] = array("0000A3", "FF3300", "FFCC33", "00CC66", "B88A00", "33FFCC", "809900", "FF3366", "FF33CC", "CC33FF", "CCFF33", "FFFF66", "33CCFF");
+
+
 ?>

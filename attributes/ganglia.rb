@@ -4,18 +4,20 @@ default[:ganglia][:version]   = "3.2.0"
 default[:ganglia][:uri]       = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
 default[:ganglia][:checksum]  = "9867153c550a65099544fae82ff3514e4ae8b172a360e4b5320e269eb32dae48"
 
-default[:ganglia][:web2][:version]          = "1.9.9.2607M"
+default[:ganglia][:web2][:version]          = "2.1.8"
+default[:ganglia][:web2][:checksum]         = "5f9efb5b6a0d4a2a72a52151e850bd15b559cfdff73e8916b08e3298021e3f12"
 default[:ganglia][:web2][:save_to_basepath] = "/usr/local/src"
 default[:ganglia][:web2][:dir_name]         = "gweb-#{ganglia[:web2][:version]}"
 default[:ganglia][:web2][:archive_name]     = "#{ganglia[:web2][:dir_name]}.tar.gz"
 default[:ganglia][:web2][:save_to]          = "#{ganglia[:web2][:save_to_basepath]}/#{ganglia[:web2][:archive_name]}"
-default[:ganglia][:web2][:uri]              = "http://ganglia.info/downloads/testing/#{ganglia[:web2][:archive_name]}"
+default[:ganglia][:web2][:uri]              = "http://sourceforge.net/projects/ganglia/files/gweb/#{ganglia[:web2][:version]}/#{ganglia[:web2][:archive_name]}/download"
 
 default[:ganglia][:web2][:server_name]                 = "gweb2.localhost"
 default[:ganglia][:web2][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
 default[:ganglia][:web2][:ssl][:key]                   = "/etc/ssl/certs/ssl-cert-snakeoil.key"
 default[:ganglia][:web2][:ssl][:certificate_authority] = "/etc/apache2/ssl.crt/ca-bundle.crt"
 default[:ganglia][:web2][:views]
+
 
 
 #
