@@ -3,6 +3,7 @@
 
     DocumentRoot /var/www/<%= node[:ganglia][:web2][:dir_name] %>
     ServerName <%= node[:ganglia][:web2][:server_name] %>
+    ServerAlias <%= node[:ganglia][:web2][:server_alias] %>
 
     <Directory />
       Options -Indexes
@@ -11,7 +12,7 @@
     <Location />
       AuthType Digest
       AuthName "Authorized"
-      AuthDigestDomain /usr/share/ganglia-webfrontend https://<%= node[:ganglia][:web2][:server_name] %>
+      AuthDigestDomain https://<%= node[:ganglia][:web2][:server_name] %> https://<%= node[:ganglia][:web2][:server_alias] %>
 
       AuthDigestProvider file
       AuthUserFile /etc/apache2/.passwds

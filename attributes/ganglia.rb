@@ -13,6 +13,7 @@ default[:ganglia][:web2][:save_to]          = "#{ganglia[:web2][:save_to_basepat
 default[:ganglia][:web2][:uri]              = "http://sourceforge.net/projects/ganglia/files/gweb/#{ganglia[:web2][:version]}/#{ganglia[:web2][:archive_name]}/download"
 
 default[:ganglia][:web2][:server_name]                 = "gweb2.localhost"
+default[:ganglia][:web2][:server_alias]                = "gweb2.localhost"
 default[:ganglia][:web2][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
 default[:ganglia][:web2][:ssl][:key]                   = "/etc/ssl/certs/ssl-cert-snakeoil.key"
 default[:ganglia][:web2][:ssl][:certificate_authority] = "/etc/apache2/ssl.crt/ca-bundle.crt"
