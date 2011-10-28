@@ -53,9 +53,14 @@ require 'json'
 #         {
 #           "regex":"web50"
 #         }],
-#       "metric_regex":[ {"regex":"load_one"} ],
+#       "metric_regex":[
+#         {
+#           "regex":"load_one"
+#         }],
 #       "graph_type":"stack",
-#       "description":"Location Web Servers load"
+#       "title":"Location Web Servers load",
+#       "vertical_label":"CPU",
+#       "lower_limit":"0"
 #     }],
 #  "view_type":"standard"
 #  }
