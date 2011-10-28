@@ -37,3 +37,12 @@ template "/etc/apache2/sites-available/#{node[:ganglia][:web2][:server_name]}" d
   mode "0644"
 end
 apache_site node[:ganglia][:web2][:server_name]
+
+node[:ganglia][:web2][:views].each do |view|
+  ganglia_view view[:name] do
+    # name view[:name]
+    type view[:type]
+    items view[:items]
+    action :create
+  end
+end
