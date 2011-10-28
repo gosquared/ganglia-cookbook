@@ -29,14 +29,14 @@ execute "Ensuring correct permissions for #{node[:ganglia][:web2][:dir_name]}" d
   }
 end
 
-template "/etc/apache2/sites-available/#{node[:ganglia][:web2][:server_name]}" do
+template "/etc/apache2/sites-available/#{node[:ganglia][:web2][:server_name]}-ssl" do
   cookbook "ganglia"
   source "web2/gweb2.apache-ssl.conf.erb"
   owner "root"
   group "root"
   mode "0644"
 end
-apache_site node[:ganglia][:web2][:server_name]
+apache_site "#{node[:ganglia][:web2][:server_name]}-ssl"
 
 node[:ganglia][:web2][:views].each do |view|
   ganglia_view view[:name] do
