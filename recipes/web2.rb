@@ -38,11 +38,24 @@ template "/etc/apache2/sites-available/#{node[:ganglia][:web2][:server_name]}-ss
 end
 apache_site "#{node[:ganglia][:web2][:server_name]}-ssl"
 
-node[:ganglia][:web2][:views].each do |view|
+default_view_items = []
+node[:ganglia][:web2][:views][:enabled].each do |view|
+  view[:items].each { |item| default_view_items << item }
+
   ganglia_view view[:name] do
-    # name view[:name]
     type view[:type]
     items view[:items]
     action :create
+  end
+end
+
+ganglia_view "default" do
+  items default_view_items
+  action :create
+end
+
+node[:ganglia][:web2][:views][:disabled].each do |view|
+  ganglia_view view do
+    action :remove
   end
 end
