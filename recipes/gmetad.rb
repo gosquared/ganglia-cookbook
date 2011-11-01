@@ -13,9 +13,11 @@ when "redhat", "centos", "fedora"
   end
 end
 
-directory "/var/lib/ganglia/rrds" do
-  owner "nobody"
-  recursive true
+execute "Ensure correct permissions for RRDs folder" do
+  command %{
+    mkdir -p /var/lib/ganglia/rrds
+    chown ganglia. -fR /var/lib/ganglia/rrds
+  }
 end
 
 service "gmetad" do
