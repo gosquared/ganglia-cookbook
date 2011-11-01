@@ -5,6 +5,7 @@ remote_file node[:ganglia][:web2][:save_to] do
 end
 
 directory "/var/lib/ganglia/conf"
+directory "/var/lib/ganglia/dwoo"
 
 bash "Installing Ganglia Web #{node[:ganglia][:web2][:version]}" do
   cwd node[:ganglia][:web2][:save_to_basepath]
@@ -26,7 +27,14 @@ execute "Ensuring correct permissions for #{node[:ganglia][:web2][:dir_name]}" d
   command %{
     chown www-data. -fR /var/www/#{node[:ganglia][:web2][:dir_name]}
     chown www-data. -fR /var/lib/ganglia/conf
+    chown www-data. -fR /var/lib/ganglia/dwoo
   }
+end
+
+apache2_passwd "Ganglia user" do
+  username node[:ganglia][:admin][:user]
+  password node[:ganglia][:admin][:password]
+  action :add
 end
 
 template "/etc/apache2/sites-available/#{node[:ganglia][:web2][:server_name]}-ssl" do
