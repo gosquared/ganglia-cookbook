@@ -17,7 +17,8 @@ default[:ganglia][:web2][:server_alias]                = "gweb2.localhost"
 default[:ganglia][:web2][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
 default[:ganglia][:web2][:ssl][:key]                   = "/etc/ssl/certs/ssl-cert-snakeoil.key"
 default[:ganglia][:web2][:ssl][:certificate_authority] = "/etc/apache2/ssl.crt/ca-bundle.crt"
-default[:ganglia][:web2][:views]
+default[:ganglia][:web2][:views][:enabled]             = []
+default[:ganglia][:web2][:views][:disabled]            = []
 
 
 
@@ -31,7 +32,7 @@ default[:ganglia][:python_modules][:disabled] = []
 
 ### GMETAD - Responsible for collecting data from an arbitrary number of GMONDs
 #
-default[:ganglia][:gmetad][:grid_name] = "unspecified"
+default[:ganglia][:gmetad][:gridname]  = "unspecified"
 default[:ganglia][:gmetad][:clusters]  = {}
 
 
