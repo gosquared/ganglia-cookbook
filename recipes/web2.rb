@@ -11,7 +11,7 @@ bash "Installing Ganglia Web #{node[:ganglia][:web2][:version]}" do
   cwd node[:ganglia][:web2][:save_to_basepath]
   code %{
     tar zxf #{node[:ganglia][:web2][:archive_name]}
-    mv #{node[:ganglia][:web2][:dir_name]} /var/www
+    mv #{node[:ganglia][:web2][:dir_name]} /var/www/#{node[:ganglia][:web2][:dir_name]}
     cp -fR /var/www/#{node[:ganglia][:web2][:dir_name]}/conf/*.json /var/lib/ganglia/conf
     rm -fr /var/lib/ganglia/dwoo/*
   }
