@@ -31,9 +31,8 @@ execute "Ensuring correct permissions for #{node[:ganglia][:web2][:dir_name]}" d
   }
 end
 
-apache2_passwd "Ganglia user" do
-  username node[:ganglia][:admin][:user]
-  password node[:ganglia][:admin][:password]
+apache2_passwd node[:ganglia][:web2][:username] do
+  password node[:ganglia][:web2][:password]
   action :add
 end
 

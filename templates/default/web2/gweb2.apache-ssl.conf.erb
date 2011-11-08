@@ -3,16 +3,18 @@
 
     DocumentRoot /var/www/<%= node[:ganglia][:web2][:dir_name] %>
     ServerName <%= node[:ganglia][:web2][:server_name] %>
-    ServerAlias <%= node[:ganglia][:web2][:server_alias] %>
+    <% if node[:ganglia][:web2][:server_aliases].any? %>
+    ServerAlias <%= node[:ganglia][:web2][:server_aliases].join(" ") %>
+    <% end %>
 
     <Directory />
       Options -Indexes
     </Directory>
 
     <Location />
+      AuthName Authorized
       AuthType Digest
-      AuthName "Authorized"
-      AuthDigestDomain https://<%= node[:ganglia][:web2][:server_name] %> https://<%= node[:ganglia][:web2][:server_alias] %>
+      AuthDigestDomain /
 
       AuthDigestProvider file
       AuthUserFile /etc/apache2/.passwds
