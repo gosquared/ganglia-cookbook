@@ -9,7 +9,7 @@ directory "/usr/lib/ganglia/python_modules_enabled"
 template "/etc/ganglia/conf.d/modpython.conf" do
   cookbook "ganglia"
   source "modpython.conf.erb"
-  notifies :restart, :service => "ganglia-monitor"
+  notifies :restart, resources(:service => "ganglia-monitor")
 end
 
 node[:ganglia][:python_modules][:enabled].each do |python_module|

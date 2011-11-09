@@ -27,5 +27,5 @@ end
 
 template "/etc/ganglia/gmetad.conf" do
   source "gmetad.conf.erb"
-  notifies :restart, :service => "gmetad"
+  notifies :restart, resources(:service => "gmetad")
 end

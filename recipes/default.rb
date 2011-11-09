@@ -30,17 +30,17 @@ end
 template "/etc/ganglia/gmond.conf" do
   cookbook "ganglia"
   source "gmond.conf.erb"
-  notifies :restart, :service => "ganglia-monitor"
+  notifies :restart, resources(:service => "ganglia-monitor")
 end
 
 template "/etc/ganglia/conf.d/gmond.modules.conf" do
   cookbook "ganglia"
   source "gmond.modules.conf.erb"
-  notifies :restart, :service => "ganglia-monitor"
+  notifies :restart, resources(:service => "ganglia-monitor")
 end
 
 template "/etc/ganglia/conf.d/gmond.collection_groups.conf" do
   cookbook "ganglia"
   source "gmond.collection_groups.conf.erb"
-  notifies :restart, :service => "ganglia-monitor"
+  notifies :restart, resources(:service => "ganglia-monitor")
 end

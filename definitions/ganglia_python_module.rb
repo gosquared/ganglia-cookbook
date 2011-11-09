@@ -5,13 +5,13 @@ define :ganglia_python_module, :disable => false do
 
   link "#{enabled_modules}/#{python_module}.py" do
     to "#{available_modules}/#{python_module}/python_modules/#{python_module}.py"
-    notifies :restart, :service => "ganglia-monitor"
+    notifies :restart, resources(:service => "ganglia-monitor")
     action (params[:disable] ? :delete : :create)
   end
 
   link "#{enabled_modules}/#{python_module}.pyconf" do
     to "#{available_modules}/#{python_module}/conf.d/#{python_module}.pyconf"
-    notifies :restart, :service => "ganglia-monitor"
+    notifies :restart, resources(:service => "ganglia-monitor")
     action (params[:disable] ? :delete : :create)
   end
 end
