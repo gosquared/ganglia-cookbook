@@ -1,8 +1,6 @@
 case node[:platform]
 when "ubuntu", "debian"
-  package "ganglia-webfrontend" do
-    options "--force-yes"
-  end
+  package "ganglia-webfrontend"
 when "redhat", "centos", "fedora"
   package "httpd"
   package "php"
