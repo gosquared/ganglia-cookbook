@@ -3,7 +3,7 @@
 
     DocumentRoot /var/www/<%= node[:ganglia][:web2][:dir_name] %>
     ServerName <%= node[:ganglia][:web2][:server_name] %>
-    <% if node[:ganglia][:web2][:server_aliases].any? %>
+    <% if node[:ganglia][:web2][:server_aliases] %>
     ServerAlias <%= node[:ganglia][:web2][:server_aliases] %>
     <% end %>
 
