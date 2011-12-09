@@ -11,6 +11,7 @@ supports "redhat"
 supports "centos"
 supports "fedora"
 
-depends "apt"
-depends "apache2"
-depends "php"
+# RECOMMENDED     # https://github.com/gchef/bootstrap-cookbook
+depends "apt"     # https://github.com/gchef/apt-cookbook
+depends "apache2" # https://github.com/gchef/apache2-cookbook
+depends "php"     # https://github.com/opscode/cookbooks
