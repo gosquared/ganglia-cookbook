@@ -4,7 +4,7 @@ else
   skip = false
 end
 
-if !skip
+unless skip
   git "/usr/lib/ganglia/python_modules_available" do
     repository "git://github.com/gchef/gmond_python_modules.git"
     reference "master"
