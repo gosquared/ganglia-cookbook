@@ -1,10 +1,4 @@
-if Chef::Util.respond_to?(:wan_up?)
-  skip = Chef::Util.wan_up? ? false : true
-else
-  skip = false
-end
-
-unless skip
+if Chef::Extensions.wan_up?
   git "/usr/lib/ganglia/python_modules_available" do
     repository "git://github.com/gchef/gmond_python_modules.git"
     reference "master"

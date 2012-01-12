@@ -3,6 +3,8 @@
 Installs and configures [Ganglia](http://ganglia.sourceforge.net) which is
 a Distributed Monitoring System.
 
+Requires the chef-extensions gem.
+
 *GMOND*
 
 Gathers user specified stats and shares them over the network.
