@@ -15,4 +15,10 @@ define :ganglia_python_module, :disable => false do
     notifies :restart, resources(:service => "ganglia-monitor"), :delayed
     action (params[:disable] ? :delete : :create)
   end
+
+  if params[:disable]
+    file "#{enabled_modules}/#{python_module_name}.pyc" do
+      action :delete
+    end
+  end
 end
