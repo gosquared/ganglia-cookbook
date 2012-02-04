@@ -6,8 +6,8 @@
 
 globals {
   daemonize = yes
-  setuid = yes
-  user = ganglia
+  setuid = <%= node[:ganglia][:gmond][:setuid] %>
+  user = <%= node[:ganglia][:gmond][:user] %>
   debug_level = 0
   max_udp_msg_len = 1472
   mute = no

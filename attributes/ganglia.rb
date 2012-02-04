@@ -33,6 +33,11 @@ default[:ganglia][:python_modules][:disabled] = []
 
 ### GMETAD - Responsible for collecting data from an arbitrary number of GMONDs
 #
+# If you don't want gmetad to setuid then set this to off.
+default[:ganglia][:gmetad][:setuid]  = "on"
+#
+# User gmetad will setuid to (defaults to "nobody")
+default[:ganglia][:gmetad][:user]  = "nobody"
 default[:ganglia][:gmetad][:gridname]  = "unspecified"
 default[:ganglia][:gmetad][:clusters]  = {}
 
@@ -43,6 +48,12 @@ default[:ganglia][:gmetad][:clusters]  = {}
 # Ganglia uses an IP address as a "key" so to avoid possible conflicts if
 # override_ip is not specified it will be set to override_hostname. This avoids
 # issues if you decide to change the override_hostname on the same machine.
+#
+# If you don't want gmetad to setuid then set this to no.
+default[:ganglia][:gmond][:setuid] = "yes"
+#
+# User gmetad will setuid to (defaults to "ganglia")
+default[:ganglia][:gmond][:user] = "ganglia"
 #
 default[:ganglia][:gmond][:override_hostname] = node[:hostname]
 #

@@ -87,12 +87,12 @@ gridname "<%= node[:ganglia][:gmetad][:gridname] %>"
 #-------------------------------------------------------------------------------
 # If you don't want gmetad to setuid then set this to off
 # default: on
-# setuid off
+setuid <%= node[:ganglia][:gmetad][:setuid] %>
 #
 #-------------------------------------------------------------------------------
 # User gmetad will setuid to (defaults to "nobody")
 # default: "nobody"
-# setuid_username "nobody"
+setuid_username <%= node[:ganglia][:gmetad][:user] %>
 #
 #-------------------------------------------------------------------------------
 # The port gmetad will answer requests for XML
