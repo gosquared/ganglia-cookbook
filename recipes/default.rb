@@ -30,7 +30,9 @@ case node[:platform]
 when "ubuntu", "debian"
   include_recipe "ganglia::apt"
   package "rrdtool"
-  package "ganglia-monitor"
+  package "ganglia-monitor" do
+    version "#{node[:ganglia][:version]}*"
+  end
 when "redhat", "centos", "fedora"
   include_recipe "ganglia::source"
 
