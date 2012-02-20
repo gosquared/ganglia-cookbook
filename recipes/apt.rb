@@ -1,6 +1,6 @@
 apt_repository "ganglia" do
   uri "http://ppa.launchpad.net/rufustfirefly/ganglia/ubuntu"
-  keyserver "pgpkeys.mit.edu"
+  keyserver "keyserver.ubuntu.com"
   key "A93EFBE2"
   action :add
 end
