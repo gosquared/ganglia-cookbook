@@ -26,6 +26,7 @@ default[:ganglia][:web2][:password]                    = "ChangeMeNOW!!!"
 #
 ### MODULES
 #
+default[:ganglia][:python_modules][:repository] = "git://github.com/gosquared/gmond_python_modules.git"
 default[:ganglia][:python_modules][:enabled] = []
 default[:ganglia][:python_modules][:disabled] = []
 

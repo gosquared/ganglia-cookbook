@@ -1,6 +1,6 @@
 if Chef::Extensions.wan_up?
   git "/usr/lib/ganglia/python_modules_available" do
-    repository "git://github.com/gchef/gmond_python_modules.git"
+    repository node[:ganglia][:python_modules][:repository]
     reference "master"
     action :sync
   end
