@@ -1,8 +1,8 @@
 ### GENERAL
 #
-default[:ganglia][:version]   = "3.2.0"
+default[:ganglia][:version]   = "3.3.5"
 default[:ganglia][:uri]       = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
-default[:ganglia][:checksum]  = "9867153c550a65099544fae82ff3514e4ae8b172a360e4b5320e269eb32dae48"
+default[:ganglia][:checksum]  = "4d4d30ef26703a0c72a7ac62be83d27e"
 
 default[:ganglia][:web2][:version]          = "2.2.0"
 default[:ganglia][:web2][:checksum]         = "01cc1b3ec6af850c12f450de119a4a0347f7a78e4089217cb861dad7159322c7"
