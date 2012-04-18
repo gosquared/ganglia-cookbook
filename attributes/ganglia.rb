@@ -1,6 +1,6 @@
 ### GENERAL
 #
-default[:ganglia][:version]   = "3.3.5"
+default[:ganglia][:version]   = "3.3.6"
 default[:ganglia][:uri]       = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
 default[:ganglia][:checksum]  = "4d4d30ef26703a0c72a7ac62be83d27e"
 

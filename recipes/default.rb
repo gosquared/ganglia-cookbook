@@ -7,24 +7,11 @@ directory "/etc/ganglia/conf.d"
 
 # If this wasn't created before the package is installed,
 # the service would start with the wrong config
-#
-# This should work, but I can't get past:
-# Configuration file `/etc/ganglia/gmond.conf'
-#  ==> File on system created by you or by a script.
-#  ==> File also in package provided by package maintainer.
-#    What would you like to do about it ?  Your options are:
-#     Y or I  : install the package maintainer's version
-#     N or O  : keep your currently-installed version
-#       D     : show the differences between the versions
-#       Z     : background this process to examine the situation
-#  The default action is to keep your current version.
-# *** gmond.conf (Y/I/N/O/D/Z) [default=N] ?
-#
-# template "/etc/ganglia/gmond.conf" do
-#   cookbook "ganglia"
-#   source "gmond.conf.erb"
-#   notifies :restart, resources(:service => "ganglia-monitor"), :delayed
-# end
+template "/etc/ganglia/gmond.conf" do
+  cookbook "ganglia"
+  source "gmond.conf.erb"
+  notifies :restart, resources(:service => "ganglia-monitor"), :delayed
+end
 
 case node[:platform]
 when "ubuntu", "debian"
@@ -32,7 +19,14 @@ when "ubuntu", "debian"
   package "rrdtool"
   package "ganglia-monitor" do
     version "#{node[:ganglia][:version]}*"
+    only_if "[ $(dpkg -l ganglia-monitor 2>&1 | grep #{node[:ganglia][:version]} | grep -c 'ii') = 0 ]"
   end
+
+  bash "freeze ganglia-monitor package" do
+    code "echo ganglia-monitor hold | dpkg --set-selections"
+    only_if "[ $(dpkg --get-selections | grep 'ganglia-monitor' | grep -c 'hold') = 0 ] "
+  end
+
 when "redhat", "centos", "fedora"
   include_recipe "ganglia::source"
 
