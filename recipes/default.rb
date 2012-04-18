@@ -19,7 +19,8 @@ when "ubuntu", "debian"
   package "rrdtool"
   package "ganglia-monitor" do
     version "#{node[:ganglia][:version]}*"
-    only_if "[ $(dpkg -l ganglia-monitor 2>&1 | grep #{node[:ganglia][:version]} | grep -c 'hi') = 0 ]"
+    options '-o Dpkg::Options::="--force-confold"'
+    only_if "[ $(dpkg -l ganglia-monitor 2>&1 | grep #{node[:ganglia][:version]} | grep -c 'h[ic]') = 0 ]"
   end
 
   bash "freeze ganglia-monitor package" do
