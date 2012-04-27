@@ -19,8 +19,8 @@ execute "Ensure correct permissions for RRDs folder" do
 end
 
 service "gmetad" do
-  supports :restart => true
-  action [ :enable, :start ]
+  supports :start => true, :stop => true, :restart => true
+  action :enable
 end
 
 template "/etc/ganglia/gmetad.conf" do
