@@ -1,3 +1,5 @@
+# Not using the packaged version because that depends on apache. Some might prefer nginx.
+#
 remote_file node[:ganglia][:web][:save_to] do
   checksum node[:ganglia][:web][:checksum]
   source node[:ganglia][:web][:uri]
@@ -6,6 +8,16 @@ end
 
 directory "/var/lib/ganglia/conf"
 directory "/var/lib/ganglia/dwoo"
+directory "/var/lib/ganglia/dwoo/cache" do
+  owner "www-data"
+  group "www-data"
+  mode "0774"
+end
+directory "/var/lib/ganglia/dwoo/compiled" do
+  owner "www-data"
+  group "www-data"
+  mode "0774"
+end
 
 bash "Installing Ganglia Web #{node[:ganglia][:web][:version]}" do
   cwd node[:ganglia][:web][:save_to_basepath]
@@ -18,11 +30,11 @@ bash "Installing Ganglia Web #{node[:ganglia][:web][:version]}" do
   only_if "[ ! -d /var/www/#{node[:ganglia][:web][:dir_name]} ]"
 end
 
-execute "Ganglia Web path fix - pending patch" do
-  command %{
-    sed -i '/.*lib\\/functions.php/ d' /var/www/#{node[:ganglia][:web][:dir_name]}/functions.php
-  }
-end
+#execute "Ganglia Web path fix - pending patch" do
+  #command %{
+    #sed -i '/.*lib\\/functions.php/ d' /var/www/#{node[:ganglia][:web][:dir_name]}/functions.php
+  #}
+#end
 
 template "/var/www/#{node[:ganglia][:web][:dir_name]}/conf_default.php" do
   cookbook "ganglia"
@@ -44,7 +56,7 @@ end
 
 template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}-ssl" do
   cookbook "ganglia"
-  source "web/gweb.apache-ssl.conf.erb"
+  source "web/ganglia-web.apache-ssl.conf.erb"
   owner "root"
   group "root"
   mode "0644"

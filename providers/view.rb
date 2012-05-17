@@ -60,7 +60,8 @@ require 'json'
 #       "graph_type":"stack",
 #       "title":"Location Web Servers load",
 #       "vertical_label":"CPU",
-#       "lower_limit":"0"
+#       "warning":"1",
+#       "critical":"2"
 #     }],
 #  "view_type":"standard"
 #  }
@@ -68,11 +69,11 @@ require 'json'
 action :create do
   template view_name do
     cookbook "ganglia"
-    source "web2/view.json.erb"
+    source "web/view.json.erb"
     variables(
       :name => new_resource.name,
       :type => new_resource.type,
-      :items_as_json => JSON.fast_generate(new_resource.items)
+      :items_as_json => JSON.pretty_generate(new_resource.items)
     )
     owner "www-data"
     group "www-data"
