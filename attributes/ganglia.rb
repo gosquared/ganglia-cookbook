@@ -1,25 +1,25 @@
 ### GENERAL
 #
-default[:ganglia][:version]   = "3.3.6"
+default[:ganglia][:version]   = "3.3.7"
 default[:ganglia][:uri]       = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
-default[:ganglia][:checksum]  = "4d4d30ef26703a0c72a7ac62be83d27e"
+default[:ganglia][:checksum]  = "e98f9ef21404f856a2ee50df748dc60e2902b210"
 
-default[:ganglia][:web2][:version]          = "2.2.0"
-default[:ganglia][:web2][:checksum]         = "01cc1b3ec6af850c12f450de119a4a0347f7a78e4089217cb861dad7159322c7"
-default[:ganglia][:web2][:save_to_basepath] = "/usr/local/src"
-default[:ganglia][:web2][:dir_name]         = "gweb-#{ganglia[:web2][:version]}"
-default[:ganglia][:web2][:archive_name]     = "#{ganglia[:web2][:dir_name]}.tar.gz"
-default[:ganglia][:web2][:save_to]          = "#{ganglia[:web2][:save_to_basepath]}/#{ganglia[:web2][:archive_name]}"
-default[:ganglia][:web2][:uri]              = "http://sourceforge.net/projects/ganglia/files/gweb/#{ganglia[:web2][:version]}/#{ganglia[:web2][:archive_name]}/download"
+default[:ganglia][:web][:version]          = "3.4.2"
+default[:ganglia][:web][:checksum]         = "09a4a8766bc323fd0df8d27a034a4d60bfbcfe97"
+default[:ganglia][:web][:save_to_basepath] = "/usr/local/src"
+default[:ganglia][:web][:dir_name]         = "gweb-#{ganglia[:web][:version]}"
+default[:ganglia][:web][:archive_name]     = "#{ganglia[:web][:dir_name]}.tar.gz"
+default[:ganglia][:web][:save_to]          = "#{ganglia[:web][:save_to_basepath]}/#{ganglia[:web][:archive_name]}"
+default[:ganglia][:web][:uri]              = "http://sourceforge.net/projects/ganglia/files/gweb/#{ganglia[:web][:version]}/#{ganglia[:web][:archive_name]}/download"
 
-default[:ganglia][:web2][:server_name]                 = "gweb2.localhost"
-default[:ganglia][:web2][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
-default[:ganglia][:web2][:ssl][:key]                   = "/etc/ssl/certs/ssl-cert-snakeoil.key"
-default[:ganglia][:web2][:ssl][:certificate_authority] = "/etc/apache2/ssl.crt/ca-bundle.crt"
-default[:ganglia][:web2][:views][:enabled]             = []
-default[:ganglia][:web2][:views][:disabled]            = []
-default[:ganglia][:web2][:username]                    = "ganglia"
-default[:ganglia][:web2][:password]                    = "ChangeMeNOW!!!"
+default[:ganglia][:web][:server_name]                 = "gweb.localhost"
+default[:ganglia][:web][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
+default[:ganglia][:web][:ssl][:key]                   = "/etc/ssl/certs/ssl-cert-snakeoil.key"
+default[:ganglia][:web][:ssl][:certificate_authority] = "/etc/apache2/ssl.crt/ca-bundle.crt"
+default[:ganglia][:web][:views][:enabled]             = []
+default[:ganglia][:web][:views][:disabled]            = []
+default[:ganglia][:web][:username]                    = "ganglia"
+default[:ganglia][:web][:password]                    = "ChangeMeNOW!!!"
 
 
 

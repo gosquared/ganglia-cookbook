@@ -1,10 +1,10 @@
 <IfModule mod_ssl.c>
   <VirtualHost *:443>
 
-    DocumentRoot /var/www/<%= node[:ganglia][:web2][:dir_name] %>
-    ServerName <%= node[:ganglia][:web2][:server_name] %>
-    <% if node[:ganglia][:web2][:server_aliases] %>
-    ServerAlias <%= node[:ganglia][:web2][:server_aliases] %>
+    DocumentRoot /var/www/<%= node[:ganglia][:web][:dir_name] %>
+    ServerName <%= node[:ganglia][:web][:server_name] %>
+    <% if node[:ganglia][:web][:server_aliases] %>
+    ServerAlias <%= node[:ganglia][:web][:server_aliases] %>
     <% end %>
 
     <Directory />
@@ -21,8 +21,8 @@
       Require valid-user
     </Location>
 
-    ErrorLog /var/log/apache2/<%= node[:ganglia][:web2][:server_name] %>-ssl.error.log
-    CustomLog /var/log/apache2/<%= node[:ganglia][:web2][:server_name] %>-ssl.access.log common
+    ErrorLog /var/log/apache2/<%= node[:ganglia][:web][:server_name] %>-ssl.error.log
+    CustomLog /var/log/apache2/<%= node[:ganglia][:web][:server_name] %>-ssl.access.log common
 
     # SSL Engine Switch:
     # Enable/Disable SSL for this virtual host.
@@ -33,13 +33,13 @@
     # the certificate is encrypted, then you will be prompted for a
     # pass phrase.  Note that a kill -HUP will prompt again.  A new
     # certificate can be generated using the genkey(1) command.
-    SSLCertificateFile <%= node[:ganglia][:web2][:ssl][:certificate] %>
+    SSLCertificateFile <%= node[:ganglia][:web][:ssl][:certificate] %>
     # Server Private Key:
     # If the key is not combined with the certificate, use this
     # directive to point at the key file.  Keep in mind that if
     # you've both a RSA and a DSA private key you can configure
     # both in parallel (to also allow the use of DSA ciphers, etc.)
-    SSLCertificateKeyFile <%= node[:ganglia][:web2][:ssl][:key] %>
+    SSLCertificateKeyFile <%= node[:ganglia][:web][:ssl][:key] %>
 
     # Server Certificate Chain:
     # Point SSLCertificateChainFile at a file containing the
@@ -58,7 +58,7 @@
     #         to point to the certificate files. Use the provided
     #         Makefile to update the hash symlinks after changes.
     #SSLCACertificatePath /etc/ssl/certs/
-    SSLCACertificateFile <%= node[:ganglia][:web2][:ssl][:certificate_authority] %>
+    SSLCACertificateFile <%= node[:ganglia][:web][:ssl][:certificate_authority] %>
 
     #   Certificate Revocation Lists (CRL):
     #   Set the CA revocation path where to find CA CRLs for client

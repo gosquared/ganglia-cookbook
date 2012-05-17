@@ -1,54 +1,74 @@
-case node[:platform]
-when "ubuntu", "debian"
-  package "ganglia-webfrontend"
-when "redhat", "centos", "fedora"
-  package "httpd"
-  package "php"
-  include_recipe "ganglia::source"
-  include_recipe "ganglia::gmetad"
-
-  execute "copy web directory" do
-    command "cp -r web /var/www/html/ganglia"
-    creates "/var/www/html/ganglia"
-    cwd "/usr/src/ganglia-#{node[:ganglia][:version]}"
-  end
+remote_file node[:ganglia][:web][:save_to] do
+  checksum node[:ganglia][:web][:checksum]
+  source node[:ganglia][:web][:uri]
+  action :create_if_missing
 end
 
-# PHP templating...
-# For some reason, ganglia-web doesn't include this
-#
-package "dwoo"
-link "/usr/share/ganglia-webfrontend/dwoo" do
-  to "/usr/share/php/dwoo"
-end
-# Dwoo requires this to write it's templates
-#
-directory "/var/lib/ganglia/dwoo" do
-  owner "www-data"
-  group "www-data"
-  mode "0755"
-end
+directory "/var/lib/ganglia/conf"
+directory "/var/lib/ganglia/dwoo"
 
-directory "/etc/ganglia-webfrontend"
-
-service "apache2" do
-  service_name "httpd" if platform?( "redhat", "centos", "fedora" )
-  supports :status => true, :restart => true, :reload => true
-  action [:enable, :start]
+bash "Installing Ganglia Web #{node[:ganglia][:web][:version]}" do
+  cwd node[:ganglia][:web][:save_to_basepath]
+  code %{
+    tar zxf #{node[:ganglia][:web][:archive_name]}
+    mv #{node[:ganglia][:web][:dir_name]} /var/www/#{node[:ganglia][:web][:dir_name]}
+    cp -fR /var/www/#{node[:ganglia][:web][:dir_name]}/conf/*.json /var/lib/ganglia/conf
+    rm -fr /var/lib/ganglia/dwoo/*
+  }
+  only_if "[ ! -d /var/www/#{node[:ganglia][:web][:dir_name]} ]"
 end
 
-%w[cluster_legend node_legend].each do |filename|
-  cookbook_file "/usr/share/ganglia-webfrontend/#{filename}.html" do
-    cookbook "ganglia"
-    source "#{filename}.html"
-    owner "root"
-    group "root"
-    mode "0644"
-  end
+execute "Ganglia Web path fix - pending patch" do
+  command %{
+    sed -i '/.*lib\\/functions.php/ d' /var/www/#{node[:ganglia][:web][:dir_name]}/functions.php
+  }
 end
 
-apache2_passwd "Ganglia user" do
-  username node[:ganglia][:admin][:user]
-  password node[:ganglia][:admin][:password]
+template "/var/www/#{node[:ganglia][:web][:dir_name]}/conf_default.php" do
+  cookbook "ganglia"
+  source "web/conf_default.php.erb"
+end
+
+execute "Ensuring correct permissions for #{node[:ganglia][:web][:dir_name]}" do
+  command %{
+    chown www-data. -fR /var/www/#{node[:ganglia][:web][:dir_name]}
+    chown www-data. -fR /var/lib/ganglia/conf
+    chown www-data. -fR /var/lib/ganglia/dwoo
+  }
+end
+
+apache2_passwd node[:ganglia][:web][:username] do
+  password node[:ganglia][:web][:password]
   action :add
+end
+
+template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}-ssl" do
+  cookbook "ganglia"
+  source "web/gweb.apache-ssl.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+end
+apache_site "#{node[:ganglia][:web][:server_name]}-ssl"
+
+default_view_items = []
+node[:ganglia][:web][:views][:enabled].each do |view|
+  view[:items].each { |item| default_view_items << item }
+
+  ganglia_view view[:name] do
+    type view[:type]
+    items view[:items]
+    action :create
+  end
+end
+
+ganglia_view "default" do
+  items default_view_items
+  action :create
+end
+
+node[:ganglia][:web][:views][:disabled].each do |view|
+  ganglia_view view do
+    action :remove
+  end
 end
