@@ -63,6 +63,15 @@ template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}-ssl
 end
 apache_site "#{node[:ganglia][:web][:server_name]}-ssl"
 
+template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}" do
+  cookbook "ganglia"
+  source "web/ganglia-web.apache.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+end
+apache_site "#{node[:ganglia][:web][:server_name]}"
+
 default_view_items = []
 node[:ganglia][:web][:views][:enabled].each do |view|
   view[:items].each { |item| default_view_items << item }

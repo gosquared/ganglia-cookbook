@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+    DocumentRoot /var/www/<%= node[:ganglia][:web][:dir_name] %>
+    ServerName <%= node[:ganglia][:web][:server_name] %>
+    <% if node[:ganglia][:web][:server_aliases] %>
+    ServerAlias <%= node[:ganglia][:web][:server_aliases] %>
+    <% end %>
+
+    <Directory />
+      Options -Indexes
+    </Directory>
+
+    <Location />
+      AuthName Authorized
+      AuthType Digest
+      AuthDigestDomain /
+
+      AuthDigestProvider file
+      AuthUserFile /etc/apache2/.passwds
+      Require valid-user
+    </Location>
+
+    ErrorLog /var/log/apache2/<%= node[:ganglia][:web][:server_name] %>.error.log
+    CustomLog /var/log/apache2/<%= node[:ganglia][:web][:server_name] %>.access.log common
+</VirtualHost>
