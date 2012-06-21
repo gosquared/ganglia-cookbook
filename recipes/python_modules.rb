@@ -23,3 +23,9 @@ if Chef::Extensions.wan_up?
     end
   end
 end
+
+template "/etc/ganglia/conf.d/pythonmodules.conf" do
+  cookbook "ganglia"
+  source "modpython.conf.erb"
+  notifies :restart, resources(:service => "ganglia-monitor")
+end

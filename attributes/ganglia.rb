@@ -30,6 +30,16 @@ default[:ganglia][:python_modules][:repository] = "git://github.com/gosquared/gm
 default[:ganglia][:python_modules][:enabled] = []
 default[:ganglia][:python_modules][:disabled] = []
 
+# MySQL
+default[:ganglia][:python_modules][:mysqld][:status]           = :disabled
+default[:ganglia][:python_modules][:mysqld][:host]             = "localhost"
+default[:ganglia][:python_modules][:mysqld][:user]             = "root"
+default[:ganglia][:python_modules][:mysqld][:password]         = ""
+default[:ganglia][:python_modules][:mysqld][:innodb]           = "True"
+default[:ganglia][:python_modules][:mysqld][:master]           = "False"
+default[:ganglia][:python_modules][:mysqld][:slave]            = "False"
+default[:ganglia][:python_modules][:mysqld][:delta_per_second] = "True"
+
 
 
 ### GMETAD - Responsible for collecting data from an arbitrary number of GMONDs
