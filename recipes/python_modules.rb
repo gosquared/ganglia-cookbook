@@ -1,11 +1,11 @@
+directory "/usr/lib/ganglia/python_modules_enabled"
+
 if Chef::Extensions.wan_up?
   git "/usr/lib/ganglia/python_modules_available" do
     repository node[:ganglia][:python_modules][:repository]
     reference "master"
     action :sync
   end
-
-  directory "/usr/lib/ganglia/python_modules_enabled"
 
   template "/etc/ganglia/conf.d/modpython.conf" do
     cookbook "ganglia"
@@ -24,7 +24,7 @@ if Chef::Extensions.wan_up?
   end
 end
 
-template "/etc/ganglia/conf.d/pythonmodules.conf" do
+template "/etc/ganglia/conf.d/python_modules.conf" do
   cookbook "ganglia"
   source "modpython.conf.erb"
   notifies :restart, resources(:service => "ganglia-monitor")
