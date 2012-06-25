@@ -11,28 +11,28 @@
 
 modules {
   module {
-    name = "mysqld"
+    name = "mysql"
     language = "python"
     param host {
-      value = '<%= node[:ganglia][:python_modules][:mysqld][:host] %>'
+      value = '<%= node[:ganglia][:python_modules][:mysql][:host] %>'
     }
     param user {
-      value = '<%= node[:ganglia][:python_modules][:mysqld][:user] %>'
+      value = '<%= node[:ganglia][:python_modules][:mysql][:user] %>'
     }
     param passwd {
-      value = '<%= node[:ganglia][:python_modules][:mysqld][:password] %>'
+      value = '<%= node[:ganglia][:python_modules][:mysql][:password] %>'
     }
     param get_innodb {
-      value = <%= node[:ganglia][:python_modules][:mysqld][:innodb] %>
+      value = <%= node[:ganglia][:python_modules][:mysql][:innodb] %>
     }
     param get_master {
-      value = <%= node[:ganglia][:python_modules][:mysqld][:master] %>
+      value = <%= node[:ganglia][:python_modules][:mysql][:master] %>
     }
     param get_slave {
-      value = <%= node[:ganglia][:python_modules][:mysqld][:slave] %>
+      value = <%= node[:ganglia][:python_modules][:mysql][:slave] %>
     }
     param delta_per_second {
-      value = <%= node[:ganglia][:python_modules][:mysqld][:delta_per_second] %>
+      value = <%= node[:ganglia][:python_modules][:mysql][:delta_per_second] %>
     }
   }
 }
@@ -41,7 +41,7 @@ collection_group {
   collect_every = 60
   time_threshold = 60
 
-<% if node[:ganglia][:python_modules][:mysqld][:innodb] == "True" -%>
+<% if node[:ganglia][:python_modules][:mysql][:innodb] == "True" -%>
   metric {
     name = "mysql_innodb_pending_normal_aio_reads"
   }
@@ -211,7 +211,7 @@ collection_group {
   }
 <% end -%>
 
-<% if node[:ganglia][:python_modules][:mysqld][:master] == "True" -%>
+<% if node[:ganglia][:python_modules][:mysql][:master] == "True" -%>
   metric {
     name = "mysql_binlog_space_used"
   }

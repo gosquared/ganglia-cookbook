@@ -81,7 +81,7 @@ action :create do
   end
 end
 
-action :remove do
+action :delete do
   file view_name do
     action :delete
   end

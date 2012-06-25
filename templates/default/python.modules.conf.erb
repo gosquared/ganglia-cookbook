@@ -9,9 +9,9 @@
 modules {
   module {
     name = "python_module"
-    path = "/usr/lib/ganglia/modpython.so"
-    params = "/usr/lib/ganglia/python_modules_enabled"
+    path = "<%= node[:ganglia][:lib] %>/modpython.so"
+    params = "<%= node[:ganglia][:lib] %>/python_modules"
   }
 }
 
-include ("/usr/lib/ganglia/python_modules_enabled/*.pyconf")
+include ("<%= node[:ganglia][:dir] %>/conf.d/*.pyconf")
