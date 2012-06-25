@@ -5,7 +5,7 @@ action :create do
   end
  end
 
- python_module_files.each do |file_name|
+  python_module_files.each do |file_name|
     template "#{node[:ganglia][:lib]}/python_modules/#{file_name}" do
       cookbook "ganglia"
       source "python_modules/#{new_resource.name}/#{file_name}.erb"
