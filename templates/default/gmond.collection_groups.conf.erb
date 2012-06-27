@@ -247,16 +247,3 @@ collection_group {
     title = "Maximum Disk Space Used"
   }
 }
-
-collection_group {
-  collect_every = 1800
-  time_threshold = 3600
-  metric {
-    name = "disk_free_absolute_rootfs"
-    title = "Disk Space Available On /"
-  }
-  metric {
-    name = "disk_free_percent_rootfs"
-    title = "Disk Space Available On / in %"
-  }
-}

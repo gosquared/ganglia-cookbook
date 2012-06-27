@@ -1,0 +1,2 @@
+actions :create,
+        :delete

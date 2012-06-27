@@ -1,16 +1,19 @@
 ### GENERAL
 #
-default[:ganglia][:version]   = "3.3.6"
-default[:ganglia][:uri]       = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
-default[:ganglia][:checksum]  = "4d4d30ef26703a0c72a7ac62be83d27e"
+set[:ganglia][:version]                               = "3.3.6"
+set[:ganglia][:uri]                                   = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
+set[:ganglia][:checksum]                              = "4d4d30ef26703a0c72a7ac62be83d27e"
 
-default[:ganglia][:web][:version]          = "3.4.2"
-default[:ganglia][:web][:checksum]         = "09a4a8766bc323fd0df8d27a034a4d60bfbcfe97"
-default[:ganglia][:web][:save_to_basepath] = "/usr/local/src"
-default[:ganglia][:web][:dir_name]         = "ganglia-web-#{ganglia[:web][:version]}"
-default[:ganglia][:web][:archive_name]     = "#{ganglia[:web][:dir_name]}.tar.gz"
-default[:ganglia][:web][:save_to]          = "#{ganglia[:web][:save_to_basepath]}/#{ganglia[:web][:archive_name]}"
-default[:ganglia][:web][:uri]              = "http://sourceforge.net/projects/ganglia/files/ganglia-web/#{ganglia[:web][:version]}/#{ganglia[:web][:archive_name]}/download"
+default[:ganglia][:dir]                               = "/etc/ganglia"
+default[:ganglia][:lib]                               = "/usr/lib/ganglia"
+
+set[:ganglia][:web][:version]                         = "3.4.2"
+set[:ganglia][:web][:checksum]                        = "09a4a8766bc323fd0df8d27a034a4d60bfbcfe97"
+set[:ganglia][:web][:save_to_basepath]                = "/usr/local/src"
+set[:ganglia][:web][:dir_name]                        = "ganglia-web-#{ganglia[:web][:version]}"
+set[:ganglia][:web][:archive_name]                    = "#{ganglia[:web][:dir_name]}.tar.gz"
+set[:ganglia][:web][:save_to]                         = "#{ganglia[:web][:save_to_basepath]}/#{ganglia[:web][:archive_name]}"
+set[:ganglia][:web][:uri]                             = "http://sourceforge.net/projects/ganglia/files/ganglia-web/#{ganglia[:web][:version]}/#{ganglia[:web][:archive_name]}/download"
 
 default[:ganglia][:web][:server_name]                 = "ganglia-web.localhost"
 default[:ganglia][:web][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
@@ -23,12 +26,47 @@ default[:ganglia][:web][:password]                    = "ChangeMeNOW!!!"
 
 
 
-#
 ### MODULES
 #
-default[:ganglia][:python_modules][:repository] = "git://github.com/gosquared/gmond_python_modules.git"
-default[:ganglia][:python_modules][:enabled] = []
-default[:ganglia][:python_modules][:disabled] = []
+# MySQL
+set[:ganglia][:python_modules][:mysql][:files]                = %w[DBUtil.py]
+set[:ganglia][:python_modules][:mysql][:pips]                 = { 'mysql-python' => "1.2.3" }
+default[:ganglia][:python_modules][:mysql][:status]           = :disabled
+default[:ganglia][:python_modules][:mysql][:host]             = "localhost"
+default[:ganglia][:python_modules][:mysql][:user]             = "root"
+default[:ganglia][:python_modules][:mysql][:password]         = ""
+default[:ganglia][:python_modules][:mysql][:innodb]           = "True"
+default[:ganglia][:python_modules][:mysql][:master]           = "False"
+default[:ganglia][:python_modules][:mysql][:slave]            = "False"
+default[:ganglia][:python_modules][:mysql][:delta_per_second] = "True"
+#
+# Diskfree
+# This module reads a list of mountpoints from the "mounts" parameter (probably
+# /proc/mounts) and creates a "disk_free_(absolute|percent)_*" metric for each
+# mountpoint it finds.
+default[:ganglia][:python_modules][:diskfree][:status]         = :disabled
+default[:ganglia][:python_modules][:diskfree][:mounts]         = "/proc/mounts"
+default[:ganglia][:python_modules][:diskfree][:custom_metrics] = [
+  #{ 
+    #:name => "disk_free_percent_mnt",
+    #:title => "Disk Space Available On /mnt in %"
+  #}
+]
+#
+# Apache status
+# Sends metrics on Apache process status refering to server-status(mod_status.so).
+# To use this you will need to enable mod_status in Apache.
+default[:ganglia][:python_modules][:apache_status][:status]              = :disabled
+default[:ganglia][:python_modules][:apache_status][:url]                 = "http://localhost/server-status?auto"
+# Collecting SSL metrics under Apache 2.2 appears to cause a memory leak
+# in mod_status. Watch Apache memory utilization if you enable them
+default[:ganglia][:python_modules][:apache_status][:collect_ssl]         = "False"
+#
+# nginx status
+# Send metrics on nginx's status stub module: http://wiki.nginx.org/HttpStubStatusModule
+default[:ganglia][:python_modules][:nginx_status][:status]       = :disabled
+default[:ganglia][:python_modules][:nginx_status][:url]          = "http://nginx_status"
+default[:ganglia][:python_modules][:nginx_status][:refresh_rate] = 15
 
 
 

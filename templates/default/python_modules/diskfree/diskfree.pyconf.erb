@@ -1,0 +1,30 @@
+modules {
+    module {
+        name = "diskfree"
+        language = "python"
+        param mounts {
+            value = '<%= node[:ganglia][:python_modules][:diskfree][:mounts] %>'
+        }
+    }
+}
+
+collection_group {
+    collect_every = 60
+    time_threshold = 180
+    metric {
+        name = "disk_free_absolute_rootfs"
+        title = "Disk Space Available On /"
+    }
+    metric {
+        name = "disk_free_percent_rootfs"
+        title = "Disk Space Available On / in %"
+    }
+
+<% node[:ganglia][:python_modules][:diskfree][:custom_metrics].each do |metric| -%>
+    metric {
+        name = "<%= metric[:name] %>"
+        title = "<%= metric[title] %>"
+    }
+
+<% end -%> 
+}
