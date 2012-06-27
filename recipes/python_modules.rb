@@ -35,6 +35,10 @@ file "#{node[:ganglia][:dir]}/conf.d/python_modules.conf" do
   action :delete
 end
 
+file "#{node[:ganglia][:dir]}/conf.d/pythonmodules.conf" do
+  action :delete
+end
+
 bash "Remove all python modules symlinks" do
   code %{
     ls #{node[:ganglia][:lib]}/python_modules | while read file

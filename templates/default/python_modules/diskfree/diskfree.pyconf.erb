@@ -3,7 +3,7 @@ modules {
         name = "diskfree"
         language = "python"
         param mounts {
-            value = '/proc/mounts'
+            value = '<%= node[:ganglia][:python_modules][:diskfree][:mounts] %>'
         }
     }
 }
@@ -20,12 +20,11 @@ collection_group {
         title = "Disk Space Available On / in %"
     }
 
-# Add additional by specifying the mount point e.g.
-#    metric {
-#        name = "disk_free_percent_mnt"
-#        title = "Disk Space Available On /mnt in %"
-#    }
-# 
+<% node[:ganglia][:python_modules][:diskfree][:custom_metrics].each do |metric| -%>
+    metric {
+        name = "<%= metric[:name] %>"
+        title = "<%= metric[title] %>"
+    }
 
+<% end -%> 
 }
-

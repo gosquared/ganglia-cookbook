@@ -26,8 +26,8 @@ default[:ganglia][:web][:password]                    = "ChangeMeNOW!!!"
 
 
 
-#
 ### MODULES
+#
 # MySQL
 set[:ganglia][:python_modules][:mysql][:files]                = %w[DBUtil.py]
 set[:ganglia][:python_modules][:mysql][:pips]                 = { 'mysql-python' => "1.2.3" }
@@ -39,8 +39,34 @@ default[:ganglia][:python_modules][:mysql][:innodb]           = "True"
 default[:ganglia][:python_modules][:mysql][:master]           = "False"
 default[:ganglia][:python_modules][:mysql][:slave]            = "False"
 default[:ganglia][:python_modules][:mysql][:delta_per_second] = "True"
+#
 # Diskfree
-default[:ganglia][:python_modules][:diskfree][:status] = :disabled
+# This module reads a list of mountpoints from the "mounts" parameter (probably
+# /proc/mounts) and creates a "disk_free_(absolute|percent)_*" metric for each
+# mountpoint it finds.
+default[:ganglia][:python_modules][:diskfree][:status]         = :disabled
+default[:ganglia][:python_modules][:diskfree][:mounts]         = "/proc/mounts"
+default[:ganglia][:python_modules][:diskfree][:custom_metrics] = [
+  #{ 
+    #:name => "disk_free_percent_mnt",
+    #:title => "Disk Space Available On /mnt in %"
+  #}
+]
+#
+# Apache status
+# Sends metrics on Apache process status refering to server-status(mod_status.so).
+# To use this you will need to enable mod_status in Apache.
+default[:ganglia][:python_modules][:apache_status][:status]              = :disabled
+default[:ganglia][:python_modules][:apache_status][:url]                 = "http://localhost/server-status?auto"
+# Collecting SSL metrics under Apache 2.2 appears to cause a memory leak
+# in mod_status. Watch Apache memory utilization if you enable them
+default[:ganglia][:python_modules][:apache_status][:collect_ssl]         = "False"
+#
+# nginx status
+# Send metrics on nginx's status stub module: http://wiki.nginx.org/HttpStubStatusModule
+default[:ganglia][:python_modules][:nginx_status][:status]       = :disabled
+default[:ganglia][:python_modules][:nginx_status][:url]          = "http://nginx_status"
+default[:ganglia][:python_modules][:nginx_status][:refresh_rate] = 15
 
 
 
