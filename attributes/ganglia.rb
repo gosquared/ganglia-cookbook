@@ -28,45 +28,125 @@ default[:ganglia][:web][:password]                    = "ChangeMeNOW!!!"
 
 ### MODULES
 #
+# Redis
+# Exposes most of the counters in the Redis `INFO` command
+default[:ganglia][:python_modules][:redis][:status]         = :disabled
+default[:ganglia][:python_modules][:redis][:collect_every]  = 10
+default[:ganglia][:python_modules][:redis][:time_threshold] = 30
+default[:ganglia][:python_modules][:redis][:host]           = "localhost"
+default[:ganglia][:python_modules][:redis][:port]           = 6379
+#
+# MongoDB
+# Parses output from the db.serverStatus() and rs.status() commands
+# /usr/bin/mongo --host mongodb-1 --port 27017 --quiet --eval "printjson(db.serverStatus())"
+default[:ganglia][:python_modules][:mongodb][:status]         = :disabled
+default[:ganglia][:python_modules][:mongodb][:collect_every]  = 30
+default[:ganglia][:python_modules][:mongodb][:time_threshold] = 60
+default[:ganglia][:python_modules][:mongodb][:server_status]  = "mongo --quiet --eval 'printjson(db.serverStatus())'"
+default[:ganglia][:python_modules][:mongodb][:rs_status]      = "mongo --quiet --eval 'printjson(rs.status())'"
+#
 # MySQL
+# To setup database access:
+#   GRANT SUPER, PROCESS ON *.* TO your_user@localhost \
+#   IDENTIFIED BY "your_password";
 set[:ganglia][:python_modules][:mysql][:files]                = %w[DBUtil.py]
 set[:ganglia][:python_modules][:mysql][:pips]                 = { 'mysql-python' => "1.2.3" }
 default[:ganglia][:python_modules][:mysql][:status]           = :disabled
+default[:ganglia][:python_modules][:mysql][:collect_every]    = 30
+default[:ganglia][:python_modules][:mysql][:time_threshold]   = 60
 default[:ganglia][:python_modules][:mysql][:host]             = "localhost"
-default[:ganglia][:python_modules][:mysql][:user]             = "root"
+default[:ganglia][:python_modules][:mysql][:username]         = "root"
 default[:ganglia][:python_modules][:mysql][:password]         = ""
 default[:ganglia][:python_modules][:mysql][:innodb]           = "True"
 default[:ganglia][:python_modules][:mysql][:master]           = "False"
 default[:ganglia][:python_modules][:mysql][:slave]            = "False"
 default[:ganglia][:python_modules][:mysql][:delta_per_second] = "True"
 #
+# RabbitMQ
+# Supposedly works, not sure about that...
+# https://github.com/ganglia/gmond_python_modules/pull/64
+# Sends metrics on RabbitMQ nodes using the stats api. It is based off the very
+# similar ElasticSearch module.
+set[:ganglia][:python_modules][:rabbitmq][:pips]                 = { 'simplejson' => "2.6.0" }
+default[:ganglia][:python_modules][:rabbitmq][:status]           = :disabled
+default[:ganglia][:python_modules][:rabbitmq][:collect_every]    = 30
+default[:ganglia][:python_modules][:rabbitmq][:time_threshold]   = 60
+default[:ganglia][:python_modules][:rabbitmq][:host]             = "localhost"
+default[:ganglia][:python_modules][:rabbitmq][:vhost]            = "/"
+default[:ganglia][:python_modules][:rabbitmq][:username]         = "guest"
+default[:ganglia][:python_modules][:rabbitmq][:password]         = "guest"
+#
 # Diskfree
-# This module reads a list of mountpoints from the "mounts" parameter (probably
+# Reads a list of mountpoints from the "mounts" parameter (probably
 # /proc/mounts) and creates a "disk_free_(absolute|percent)_*" metric for each
 # mountpoint it finds.
 default[:ganglia][:python_modules][:diskfree][:status]         = :disabled
+default[:ganglia][:python_modules][:diskfree][:collect_every]  = 60
+default[:ganglia][:python_modules][:diskfree][:time_threshold] = 180
 default[:ganglia][:python_modules][:diskfree][:mounts]         = "/proc/mounts"
 default[:ganglia][:python_modules][:diskfree][:custom_metrics] = [
-  #{ 
+  #{
     #:name => "disk_free_percent_mnt",
     #:title => "Disk Space Available On /mnt in %"
   #}
 ]
 #
+# Diskstat
+# Can monitor multiple disk block devices including specific partitions instead of the entire device.
+# This module has the option of explicitly setting which devices
+# to check using the "devices" option in your configuration. You
+# can monitor specific partitions instead of the entire device.
+default[:ganglia][:python_modules][:diskstat][:status]         = :disabled
+default[:ganglia][:python_modules][:diskstat][:collect_every]  = 60
+default[:ganglia][:python_modules][:diskstat][:time_threshold] = 180
+# Example value: "sda1 sda2".
+# Example value: "sda sdb sdc".
+default[:ganglia][:python_modules][:diskstat][:devices]        = "sda"
+default[:ganglia][:python_modules][:diskstat][:device_mapper]  = "False"
+#
 # Apache status
-# Sends metrics on Apache process status refering to server-status(mod_status.so).
-# To use this you will need to enable mod_status in Apache.
+# Sends metrics on Apache's status (mod_status.so).
+# Remember to enable mod_status in Apache.
 default[:ganglia][:python_modules][:apache_status][:status]              = :disabled
+default[:ganglia][:python_modules][:apache_status][:collect_every]       = 10
+default[:ganglia][:python_modules][:apache_status][:time_threshold]      = 20
 default[:ganglia][:python_modules][:apache_status][:url]                 = "http://localhost/server-status?auto"
 # Collecting SSL metrics under Apache 2.2 appears to cause a memory leak
 # in mod_status. Watch Apache memory utilization if you enable them
 default[:ganglia][:python_modules][:apache_status][:collect_ssl]         = "False"
 #
 # nginx status
-# Send metrics on nginx's status stub module: http://wiki.nginx.org/HttpStubStatusModule
-default[:ganglia][:python_modules][:nginx_status][:status]       = :disabled
-default[:ganglia][:python_modules][:nginx_status][:url]          = "http://nginx_status"
-default[:ganglia][:python_modules][:nginx_status][:refresh_rate] = 15
+# Sends metrics on nginx's status (stub module): http://wiki.nginx.org/HttpStubStatusModule
+#
+# server {
+#   server_name nginx_status;
+#
+#   location / {
+#     stub_status on;
+#     access_log  off;
+#     allow       127.0.0.1;
+#     deny        all;
+#   }
+# }
+default[:ganglia][:python_modules][:nginx_status][:status]         = :disabled
+default[:ganglia][:python_modules][:nginx_status][:collect_every]  = 10
+default[:ganglia][:python_modules][:nginx_status][:time_threshold] = 20
+default[:ganglia][:python_modules][:nginx_status][:url]            = "http://nginx_status"
+default[:ganglia][:python_modules][:nginx_status][:refresh_rate]   = 15
+#
+# Procstat
+# Exposes values for CPU and memory utilization for running processes. You can
+# retrieve the process ID from either providing a pidfile or an awk regular
+# expression. Using a pidfile is the most efficient and direct method.
+default[:ganglia][:python_modules][:procstat][:status]         = :disabled
+default[:ganglia][:python_modules][:procstat][:collect_every]  = 30
+default[:ganglia][:python_modules][:procstat][:time_threshold] = 30
+default[:ganglia][:python_modules][:procstat][:processes]      = [
+  {
+    :name  => "ganglia-monitor",
+    :value => "/bin.*gmond/"
+  }
+]
 
 
 
