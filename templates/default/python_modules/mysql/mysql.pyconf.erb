@@ -71,6 +71,14 @@ collection_group {
   metric {
     name = "mysql_slave_sql"
   }
+
+  metric {
+    name = "mysql_slave_retried_transactions"
+  }
+
+  metric {
+    name = "mysql_slave_open_temp_tables"
+  }
 <% end -%>
 
 <% if node[:ganglia][:python_modules][:mysql][:innodb] == "True" -%>
@@ -296,10 +304,6 @@ collection_group {
   }
 
   metric {
-    name = "mysql_slave_open_temp_tables"
-  }
-
-  metric {
     name = "mysql_slow_launch_threads"
   }
 
@@ -365,10 +369,6 @@ collection_group {
 
   metric {
     name = "mysql_com_select"
-  }
-
-  metric {
-    name = "mysql_slave_retried_transactions"
   }
 
   metric {
