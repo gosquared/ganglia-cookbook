@@ -33,6 +33,46 @@ collection_group {
   collect_every = <%= node[:ganglia][:python_modules][:mysql][:collect_every] %>
   time_threshold = <%= node[:ganglia][:python_modules][:mysql][:time_threshold] %>
 
+<% if node[:ganglia][:python_modules][:mysql][:master] == "True" -%>
+  metric {
+    name = "mysql_binlog_count"
+  }
+
+  metric {
+    name = "mysql_binlog_space_current"
+  }
+
+  metric {
+    name = "mysql_binlog_space_total"
+  }
+
+  metric {
+    name = "mysql_binlog_space_used"
+  }
+<% end -%>
+
+<% if node[:ganglia][:python_modules][:mysql][:slave] == "True" -%>
+  metric {
+    name = "mysql_slave_exec_master_log_pos"
+  }
+
+  metric {
+    name = "mysql_slave_io"
+  }
+
+  metric {
+    name = "mysql_slave_log"
+  }
+
+  metric {
+    name = "mysql_slave_relay_log_pos"
+  }
+
+  metric {
+    name = "mysql_slave_sql"
+  }
+<% end -%>
+
 <% if node[:ganglia][:python_modules][:mysql][:innodb] == "True" -%>
   metric {
     name = "mysql_innodb_pending_normal_aio_reads"
@@ -203,27 +243,9 @@ collection_group {
   }
 <% end -%>
 
-<% if node[:ganglia][:python_modules][:mysql][:master] == "True" -%>
-  metric {
-    name = "mysql_binlog_space_used"
-  }
-
-  metric {
-    name = "mysql_binlog_space_current"
-  }
-
-  metric {
-    name = "mysql_binlog_space_total"
-  }
-
   metric {
     name = "mysql_binlog_cache_disk_use"
   }
-
-  metric {
-    name = "mysql_binlog_count"
-  }
-<% end -%>
 
   metric {
     name = "mysql_key_write_requests"
