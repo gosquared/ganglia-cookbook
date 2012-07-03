@@ -245,6 +245,7 @@ if __name__ == "__main__":
     result = refreshGroup('queues')
     node_result = refreshGroup('nodes')
     print '***'*10
+    # Are these hardcoded for testing purposes?
     getQueueStat('rmq_backing_queue_ack_egress_rate.gelf_client_three')
     getNodeStat('rmq_disk_free.rmqtwo@inrmq02d1')
     getNodeStat('rmq_mem_used.rmqtwo@inrmq02d1')
