@@ -30,12 +30,6 @@ bash "Installing Ganglia Web #{node[:ganglia][:web][:version]}" do
   only_if "[ ! -d /var/www/#{node[:ganglia][:web][:dir_name]} ]"
 end
 
-#execute "Ganglia Web path fix - pending patch" do
-  #command %{
-    #sed -i '/.*lib\\/functions.php/ d' /var/www/#{node[:ganglia][:web][:dir_name]}/functions.php
-  #}
-#end
-
 template "/var/www/#{node[:ganglia][:web][:dir_name]}/conf_default.php" do
   cookbook "ganglia"
   source "web/conf_default.php.erb"

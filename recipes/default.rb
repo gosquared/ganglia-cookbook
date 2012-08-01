@@ -1,13 +1,27 @@
+user node[:ganglia][:gmond][:user]
+
 service "ganglia-monitor" do
   pattern "gmond"
 end
 
-directory "/etc/ganglia"
-directory "/etc/ganglia/conf.d"
+directory "/etc/ganglia" do
+  owner node[:ganglia][:gmond][:user]
+  group node[:ganglia][:gmond][:user]
+  mode "0755"
+end
+
+directory "/etc/ganglia/conf.d" do
+  owner node[:ganglia][:gmond][:user]
+  group node[:ganglia][:gmond][:user]
+  mode "0755"
+end
 
 # If this wasn't created before the package is installed,
 # the service would start with the wrong config
 template "/etc/ganglia/gmond.conf" do
+  owner node[:ganglia][:gmond][:user]
+  group node[:ganglia][:gmond][:user]
+  mode "0554"
   cookbook "ganglia"
   source "gmond.conf.erb"
   notifies :restart, resources(:service => "ganglia-monitor"), :delayed
@@ -37,8 +51,6 @@ when "redhat", "centos", "fedora"
     }
     not_if "[ -f /etc/init.d/ganglia-monitor ]"
   end
-
-  user "ganglia"
 end
 
 service "ganglia-monitor" do
