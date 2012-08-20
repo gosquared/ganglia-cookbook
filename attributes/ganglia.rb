@@ -1,6 +1,6 @@
 ### GENERAL
 #
-set[:ganglia][:version]                               = "3.3.6"
+set[:ganglia][:version]                               = "3.3.8"
 set[:ganglia][:uri]                                   = "http://sourceforge.net/projects/ganglia/files/ganglia%20monitoring%20core/#{ganglia[:version]}/ganglia-#{ganglia[:version]}.tar.gz/download"
 set[:ganglia][:checksum]                              = "4d4d30ef26703a0c72a7ac62be83d27e"
 
