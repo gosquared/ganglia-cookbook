@@ -160,7 +160,7 @@ default[:ganglia][:gmetad][:user]  = "nobody"
 default[:ganglia][:gmetad][:gridname]  = "unspecified"
 default[:ganglia][:gmetad][:clusters]  = {}
 
-
+default[:ganglia][:gmetad][:rrd_dir] = "/var/lib/ganglia/rrds"
 
 ### GMOND - Gathers user specified stats and shares them over the network
 #

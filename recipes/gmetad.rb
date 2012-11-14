@@ -13,8 +13,8 @@ end
 
 execute "Ensure correct permissions for RRDs folder" do
   command %{
-    mkdir -p /var/lib/ganglia/rrds
-    chown nobody.ganglia -fR /var/lib/ganglia/rrds
+    mkdir -p #{node[:ganglia][:gmetad][:rrd_dir]}
+    chown nobody.ganglia -fR #{node[:ganglia][:gmetad][:rrd_dir]}
   }
 end
 
