@@ -1,4 +1,5 @@
-include_recipe "python" # https://github.com/gchef/php-cookbook
+package "python"
+package "python-dev"
 
 directory "#{node[:ganglia][:lib]}/python_modules"
 
