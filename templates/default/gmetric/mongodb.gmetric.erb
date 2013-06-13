@@ -16,7 +16,7 @@ try:
 except ImportError:
     hasPyMongo = False
 
-GMETRIC = "/usr/bin/gmetric --name=\"%s\" --value=\"%s\" --type=\"%s\" --units=\"%s\""
+GMETRIC = "/usr/bin/gmetric --name=\"%s\" --value=\"%s\" --type=\"%s\" --units=\"%s\" --group=\"mongodb\""
 
 mongodbPort = 27017
 if "MONGODB_PORT" in os.environ:
