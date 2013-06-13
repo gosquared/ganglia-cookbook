@@ -134,7 +134,7 @@ class ServerStatus:
             with open(self.ops_tmp_file, "r") as f:
                 content = f.read()
                 prev_ops = json.loads(content)
-        except (ValueError, IOError):
+        except (ValueError, IOError, OSError):
             prev_ops = {}
 
         for k, v in cur_ops.iteritems():
