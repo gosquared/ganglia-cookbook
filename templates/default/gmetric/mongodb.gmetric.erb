@@ -28,7 +28,7 @@ class ServerStatus:
     def __init__(self):
         self.status = self.getServerStatus()
         # call individual metrics
-        for f in ["conns", "mem", "backgroundFlushing", "repl", "ops"]:
+        for f in ["conns", "mem", "btree", "backgroundFlushing", "repl", "ops", "lock", "extra_info", "recordStats", "metrics"]:
             getattr(self, f)()
 
         if (hasPyMongo):
@@ -100,13 +100,41 @@ class ServerStatus:
         })
 
     def btree(self):
-        b = self.status["indexCounters"]["btree"]
+        b = self.status["indexCounters"]
         self.callGmetric({
-            "btree_accesses" : (b["accesses"], "count"),
-            "btree_hits" : (b["hits"], "count"),
-            "btree_misses" : (b["misses"], "count"),
-            "btree_resets" : (b["resets"], "count"),
-            "btree_miss_ratio" : (b["missRatio"], "ratio"),
+            "index_accesses" : (b["accesses"], "count"),
+            "index_hits" : (b["hits"], "count"),
+            "index_misses" : (b["misses"], "count"),
+            "index_resets" : (b["resets"], "count"),
+            "index_miss_ratio" : (b["missRatio"], "ratio")
+        })
+
+    def extra_info(self):
+        e = self.status["extra_info"]
+        self.callGmetric({
+            "heap_usage_bytes": (e["heap_usage_bytes"], "count"),
+            "page_faults": (e["page_faults"], "count")
+        })
+
+    def recordStats(self):
+        r = self.status["recordStats"]
+        self.callGmetric({
+            "accesses_not_in_memory": (r["accessesNotInMemory"], "count"),
+            "page_fault_exceptions_thrown": (r["pageFaultExceptionsThrown"], "count")
+        })
+
+    def metrics(self):
+        m = self.status["metrics"]
+        self.callGmetric({
+            "metrics_document_deleted": (m["document"]["deleted"], "count"),
+            "metrics_document_inserted": (m["document"]["inserted"], "count"),
+            "metrics_document_returned": (m["document"]["returned"], "count"),
+            "metrics_document_updated": (m["document"]["updated"], "count"),
+            "metrics_operation_fastmod": (m["operation"]["fastmod"], "count"),
+            "metrics_operation_idhack": (m["operation"]["idhack"], "count"),
+            "metrics_operation_scan_and_order": (m["operation"]["scanAndOrder"], "count"),
+            "metrics_queryexecutor_scanned": (m["queryExecutor"]["scanned"], "count"),
+            "metrics_record": (m["record"]["moves"], "count")
         })
 
     def mem(self):
@@ -115,6 +143,7 @@ class ServerStatus:
             "mem_resident" : (m["resident"], "MB"),
             "mem_virtual" : (m["virtual"], "MB"),
             "mem_mapped" : (m["mapped"], "MB"),
+            "mem_mapped_with_journal" : (m["mappedWithJournal"], "MB")
         })
 
     def backgroundFlushing(self):
@@ -164,9 +193,8 @@ class ServerStatus:
 
     def lock(self):
         self.callGmetric({
-            "lock_ratio" : (self.status["globalLock"]["ratio"], "ratio"),
             "lock_queue_readers" : (self.status["globalLock"]["currentQueue"]["readers"], "queue size"),
-            "lock_queue_writers" : (self.status["globalLock"]["currentQueue"]["writers"], "queue size"),
+            "lock_queue_writers" : (self.status["globalLock"]["currentQueue"]["writers"], "queue size")
         })
 
 if __name__ == "__main__":
