@@ -1,5 +1,6 @@
 package "python"
 package "python-dev"
+package "python-pip"
 
 directory "#{node[:ganglia][:lib]}/python_modules"
 
