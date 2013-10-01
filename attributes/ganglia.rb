@@ -16,6 +16,7 @@ set[:ganglia][:web][:save_to]                         = "#{ganglia[:web][:save_t
 set[:ganglia][:web][:uri]                             = "http://sourceforge.net/projects/ganglia/files/ganglia-web/#{ganglia[:web][:version]}/#{ganglia[:web][:archive_name]}/download"
 
 default[:ganglia][:web][:server_name]                 = "ganglia-web.localhost"
+default[:ganglia][:web][:ssl][:enabled]               = true
 default[:ganglia][:web][:ssl][:certificate]           = "/etc/ssl/certs/ssl-cert-snakeoil.pem"
 default[:ganglia][:web][:ssl][:key]                   = "/etc/ssl/certs/ssl-cert-snakeoil.key"
 default[:ganglia][:web][:ssl][:certificate_authority] = "/etc/apache2/ssl.crt/ca-bundle.crt"

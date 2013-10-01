@@ -48,14 +48,18 @@ apache2_passwd node[:ganglia][:web][:username] do
   action :add
 end
 
-template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}-ssl" do
-  cookbook "ganglia"
-  source "web/ganglia-web.apache-ssl.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+if node[:ganglia][:web][:ssl][:enabled]
+
+  template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}-ssl" do
+    cookbook "ganglia"
+    source "web/ganglia-web.apache-ssl.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+  end
+  apache_site "#{node[:ganglia][:web][:server_name]}-ssl"
+
 end
-apache_site "#{node[:ganglia][:web][:server_name]}-ssl"
 
 template "/etc/apache2/sites-available/#{node[:ganglia][:web][:server_name]}" do
   cookbook "ganglia"
